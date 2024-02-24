@@ -1,0 +1,148 @@
+name: 'Bank Account Transactions'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/bank-transactions/transfer
+    metadata:
+      title: 'Transfer Service'
+      description: 'This endpoint transfers money from one account to another'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      from:
+        name: from
+        description: ''
+        required: true
+        example: dolorem
+        type: string
+        custom: []
+      to:
+        name: to
+        description: ''
+        required: true
+        example: harum
+        type: string
+        custom: []
+      amount:
+        name: amount
+        description: 'Must be at least 0.'
+        required: true
+        example: 0
+        type: number
+        custom: []
+      charges:
+        name: charges
+        description: 'Must be at least 0.'
+        required: false
+        example: 0
+        type: number
+        custom: []
+      comments:
+        name: comments
+        description: ''
+        required: false
+        example: null
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/bank-transactions/deposit
+    metadata:
+      title: 'Deposit Service'
+      description: 'This endpoint deposits money into an account'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      account_number:
+        name: account_number
+        description: ''
+        required: true
+        example: dolor
+        type: string
+        custom: []
+      amount:
+        name: amount
+        description: 'Must be at least 0.'
+        required: true
+        example: 0
+        type: number
+        custom: []
+      charges:
+        name: charges
+        description: 'Must be at least 0.'
+        required: false
+        example: 0
+        type: number
+        custom: []
+      comments:
+        name: comments
+        description: ''
+        required: false
+        example: null
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/bank-transactions/withdraw
+    metadata:
+      title: 'Withdrawal Service'
+      description: 'This endpoint helps to withdraw monry from an account'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      account_number:
+        name: account_number
+        description: ''
+        required: true
+        example: iure
+        type: string
+        custom: []
+      amount:
+        name: amount
+        description: 'Must be at least 0.'
+        required: true
+        example: 0
+        type: number
+        custom: []
+      charges:
+        name: charges
+        description: 'Must be at least 0.'
+        required: false
+        example: 0
+        type: number
+        custom: []
+      comments:
+        name: comments
+        description: ''
+        required: false
+        example: null
+        type: string
+        custom: []
+    responses: []
+    responseFields: []

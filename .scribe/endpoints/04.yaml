@@ -1,0 +1,173 @@
+name: 'Bank Management'
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/banks
+    metadata:
+      title: 'Get banks branches'
+      description: 'This resource fetches all the list of bank accounts.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters:
+      page_size:
+        name: page_size
+        description: 'Size per page. Default is 20.'
+        required: false
+        example: 20
+        type: integer
+        custom: []
+      page:
+        name: page
+        description: 'Page to view. Default is 1.'
+        required: false
+        example: 1
+        type: integer
+        custom: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":[{"id":2,"name":"United Bank for Africa","code":"4NQZFW","created_at":"2022-01-21T16:50:32.000000Z","updated_at":"2022-01-21T16:50:32.000000Z"},{"id":3,"name":"United Bank for Africa","code":"SER1PU","created_at":"2022-01-21T16:50:32.000000Z","updated_at":"2022-01-21T16:50:32.000000Z"}]}'
+        headers: []
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/banks/{id}'
+    metadata:
+      title: 'Find a bank'
+      description: 'This endpoint fetches a bank by id.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the bank.'
+        required: true
+        example: 11
+        type: integer
+        custom: []
+      bank:
+        name: bank
+        description: 'The bank branch id. Default 1.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":{"id":4,"name":"United Bank for Africa","code":"SYJC1I","created_at":"2022-01-21T16:50:32.000000Z","updated_at":"2022-01-21T16:50:32.000000Z"}}'
+        headers: []
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/v1/banks/{id}'
+    metadata:
+      title: 'Update bank'
+      description: 'This endpoint updates bank.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the bank.'
+        required: true
+        example: 6
+        type: integer
+        custom: []
+      bank:
+        name: bank
+        description: 'The bank branch id. Default 1.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Must not be greater than 128 characters.'
+        required: true
+        example: hddpurnnvautwy
+        type: string
+        custom: []
+      code:
+        name: code
+        description: 'Must not be greater than 16 characters.'
+        required: true
+        example: tuogbqnc
+        type: string
+        custom: []
+    responses:
+      -
+        status: 200
+        content: '{"data":{"id":5,"name":"United Bank for Africa","code":"BEOYAY","created_at":"2022-01-21T16:50:32.000000Z","updated_at":"2022-01-21T16:50:32.000000Z"}}'
+        headers: []
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/banks/{bank}/bank-branches'
+    metadata:
+      title: 'Get branches of a bank'
+      description: 'This resource fetches the list of branches in a bank.'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      bank:
+        name: bank
+        description: 'The bank branch id. Default 1.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    queryParameters:
+      page_size:
+        name: page_size
+        description: 'Size per page. Default is 20.'
+        required: false
+        example: 20
+        type: integer
+        custom: []
+      page:
+        name: page
+        description: 'Page to view. Default is 1.'
+        required: false
+        example: 1
+        type: integer
+        custom: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"data":[{"id":null,"name":"United Bank for Africa - Head Office","bank":null,"created_at":null,"updated_at":null},{"id":null,"name":"United Bank for Africa - Head Office","bank":null,"created_at":null,"updated_at":null}]}'
+        headers: []
+        description: null
+    responseFields: []

@@ -1,0 +1,2246 @@
+openapi: 3.0.3
+info:
+  title: 'Banking API'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths:
+  /api/v1/banks:
+    get:
+      summary: 'Get banks branches'
+      description: 'This resource fetches all the list of bank accounts.'
+      parameters:
+        -
+          in: query
+          name: page_size
+          description: 'Size per page. Default is 20.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Size per page. Default is 20.'
+            example: 20
+        -
+          in: query
+          name: page
+          description: 'Page to view. Default is 1.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page to view. Default is 1.'
+            example: 1
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 2
+                      name: 'United Bank for Africa'
+                      code: 4NQZFW
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+                    -
+                      id: 3
+                      name: 'United Bank for Africa'
+                      code: SER1PU
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 2
+                        name: 'United Bank for Africa'
+                        code: 4NQZFW
+                        created_at: '2022-01-21T16:50:32.000000Z'
+                        updated_at: '2022-01-21T16:50:32.000000Z'
+                      -
+                        id: 3
+                        name: 'United Bank for Africa'
+                        code: SER1PU
+                        created_at: '2022-01-21T16:50:32.000000Z'
+                        updated_at: '2022-01-21T16:50:32.000000Z'
+                    items:
+                      type: object
+      tags:
+        - 'Bank Management'
+  '/api/v1/banks/{id}':
+    get:
+      summary: 'Find a bank'
+      description: 'This endpoint fetches a bank by id.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 4
+                    name: 'United Bank for Africa'
+                    code: SYJC1I
+                    created_at: '2022-01-21T16:50:32.000000Z'
+                    updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 4
+                      name: 'United Bank for Africa'
+                      code: SYJC1I
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+      tags:
+        - 'Bank Management'
+    put:
+      summary: 'Update bank'
+      description: 'This endpoint updates bank.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 5
+                    name: 'United Bank for Africa'
+                    code: BEOYAY
+                    created_at: '2022-01-21T16:50:32.000000Z'
+                    updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 5
+                      name: 'United Bank for Africa'
+                      code: BEOYAY
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+      tags:
+        - 'Bank Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 128 characters.'
+                  example: hddpurnnvautwy
+                code:
+                  type: string
+                  description: 'Must not be greater than 16 characters.'
+                  example: tuogbqnc
+              required:
+                - name
+                - code
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the bank.'
+        example: 11
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: bank
+        description: 'The bank branch id. Default 1.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/banks/{bank}/bank-branches':
+    get:
+      summary: 'Get branches of a bank'
+      description: 'This resource fetches the list of branches in a bank.'
+      parameters:
+        -
+          in: query
+          name: page_size
+          description: 'Size per page. Default is 20.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Size per page. Default is 20.'
+            example: 20
+        -
+          in: query
+          name: page
+          description: 'Page to view. Default is 1.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page to view. Default is 1.'
+            example: 1
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: null
+                      name: 'United Bank for Africa - Head Office'
+                      bank: null
+                      created_at: null
+                      updated_at: null
+                    -
+                      id: null
+                      name: 'United Bank for Africa - Head Office'
+                      bank: null
+                      created_at: null
+                      updated_at: null
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: null
+                        name: 'United Bank for Africa - Head Office'
+                        bank: null
+                        created_at: null
+                        updated_at: null
+                      -
+                        id: null
+                        name: 'United Bank for Africa - Head Office'
+                        bank: null
+                        created_at: null
+                        updated_at: null
+                    items:
+                      type: object
+      tags:
+        - 'Bank Management'
+    parameters:
+      -
+        in: path
+        name: bank
+        description: 'The bank branch id. Default 1.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/users/random:
+    get:
+      summary: ''
+      description: ''
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 1
+                    name: 'Judson Gulgowski'
+                    email: kari.koelpin@example.com
+                    created_at: '2022-01-21T12:02:54.000000Z'
+                    updated_at: '2022-01-21T12:02:54.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 1
+                      name: 'Judson Gulgowski'
+                      email: kari.koelpin@example.com
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+      tags:
+        - 'Auth - User management'
+      security: []
+  /api/v1/users/random-access-token:
+    get:
+      summary: "Login\nGet Random Access Token"
+      description: 'The generates a random access token for a random user.'
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  token: 9|BFHRY3P2a0KLLyZo63vGMH5WcUHsb1nDaPnD5G4C
+                properties:
+                  token:
+                    type: string
+                    example: 9|BFHRY3P2a0KLLyZo63vGMH5WcUHsb1nDaPnD5G4C
+      tags:
+        - 'Auth - User management'
+      security: []
+  /api/v1/users.me:
+    get:
+      summary: 'Get Me'
+      description: 'Fetches the details of the currently authenticated user'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 13
+                    name: 'Lois Kuhlman'
+                    email: maximus.kuvalis@example.org
+                    created_at: '2022-01-21T16:50:32.000000Z'
+                    updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 13
+                      name: 'Lois Kuhlman'
+                      email: maximus.kuvalis@example.org
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+      tags:
+        - 'Auth - User management'
+  /api/v1/bank-accounts:
+    post:
+      summary: 'Create bank account'
+      description: 'This endpoint creates a new bank account.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 108
+                    account_number: CMR58543672034969657820831316
+                    account_type: CURRENT
+                    account_balance: 10000000
+                    owner:
+                      id: 1
+                      first_name: Clair
+                      middle_name: Conn
+                      last_name: Kshlerin
+                      sex: F
+                      date_of_birth: '1980-07-17'
+                      place_of_birth: 'South Zariatown'
+                      nationality: CMR
+                      country_of_origin: CMR
+                      address_line_1: '49914 Braun Station'
+                      address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                      phone: +1-425-449-2435
+                      email: wterry@example.net
+                      created_at_branch: 1
+                      created_by: 1
+                      lastly_updated_by: null
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_at_branch:
+                      id: 1
+                      name: 'United Bank for Africa - Head Office'
+                      address_line_1: '95539 Jessica Manor'
+                      address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                      state: LT
+                      country: CMR
+                      bank_id: 1
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_by:
+                      id: 1
+                      name: 'Judson Gulgowski'
+                      email: kari.koelpin@example.com
+                      email_verified_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_at: '2022-01-21T16:50:32.000000Z'
+                    updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 108
+                      account_number: CMR58543672034969657820831316
+                      account_type: CURRENT
+                      account_balance: 10000000
+                      owner:
+                        id: 1
+                        first_name: Clair
+                        middle_name: Conn
+                        last_name: Kshlerin
+                        sex: F
+                        date_of_birth: '1980-07-17'
+                        place_of_birth: 'South Zariatown'
+                        nationality: CMR
+                        country_of_origin: CMR
+                        address_line_1: '49914 Braun Station'
+                        address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                        phone: +1-425-449-2435
+                        email: wterry@example.net
+                        created_at_branch: 1
+                        created_by: 1
+                        lastly_updated_by: null
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+      tags:
+        - 'Bank Account Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                account_type:
+                  type: string
+                  description: ''
+                  example: libero
+                initial_deposit:
+                  type: string
+                  description: 'Must be at least 0 characters.'
+                  example: ''
+                customer_id:
+                  type: string
+                  description: ''
+                  example: maxime
+                created_at_branch:
+                  type: integer
+                  description: ''
+                  example: 14
+              required:
+                - account_type
+                - initial_deposit
+                - customer_id
+                - created_at_branch
+    get:
+      summary: 'Get banks accounts'
+      description: 'This resource fetches all the list of bank accounts.'
+      parameters:
+        -
+          in: query
+          name: page_size
+          description: 'Size per page. Default is 20.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Size per page. Default is 20.'
+            example: 20
+        -
+          in: query
+          name: page
+          description: 'Page to view. Default is 1.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page to view. Default is 1.'
+            example: 1
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 109
+                      account_number: CMR36264588103602874716988349
+                      account_type: SAVINGS
+                      account_balance: 10000000
+                      owner:
+                        id: 1
+                        first_name: Clair
+                        middle_name: Conn
+                        last_name: Kshlerin
+                        sex: F
+                        date_of_birth: '1980-07-17'
+                        place_of_birth: 'South Zariatown'
+                        nationality: CMR
+                        country_of_origin: CMR
+                        address_line_1: '49914 Braun Station'
+                        address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                        phone: +1-425-449-2435
+                        email: wterry@example.net
+                        created_at_branch: 1
+                        created_by: 1
+                        lastly_updated_by: null
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+                    -
+                      id: 110
+                      account_number: CMR42820148935540756737418645
+                      account_type: SAVINGS
+                      account_balance: 10000000
+                      owner:
+                        id: 1
+                        first_name: Clair
+                        middle_name: Conn
+                        last_name: Kshlerin
+                        sex: F
+                        date_of_birth: '1980-07-17'
+                        place_of_birth: 'South Zariatown'
+                        nationality: CMR
+                        country_of_origin: CMR
+                        address_line_1: '49914 Braun Station'
+                        address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                        phone: +1-425-449-2435
+                        email: wterry@example.net
+                        created_at_branch: 1
+                        created_by: 1
+                        lastly_updated_by: null
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 109
+                        account_number: CMR36264588103602874716988349
+                        account_type: SAVINGS
+                        account_balance: 10000000
+                        owner:
+                          id: 1
+                          first_name: Clair
+                          middle_name: Conn
+                          last_name: Kshlerin
+                          sex: F
+                          date_of_birth: '1980-07-17'
+                          place_of_birth: 'South Zariatown'
+                          nationality: CMR
+                          country_of_origin: CMR
+                          address_line_1: '49914 Braun Station'
+                          address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                          phone: +1-425-449-2435
+                          email: wterry@example.net
+                          created_at_branch: 1
+                          created_by: 1
+                          lastly_updated_by: null
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_at_branch:
+                          id: 1
+                          name: 'United Bank for Africa - Head Office'
+                          address_line_1: '95539 Jessica Manor'
+                          address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                          state: LT
+                          country: CMR
+                          bank_id: 1
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_by:
+                          id: 1
+                          name: 'Judson Gulgowski'
+                          email: kari.koelpin@example.com
+                          email_verified_at: '2022-01-21T12:02:54.000000Z'
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T16:50:32.000000Z'
+                        updated_at: '2022-01-21T16:50:32.000000Z'
+                      -
+                        id: 110
+                        account_number: CMR42820148935540756737418645
+                        account_type: SAVINGS
+                        account_balance: 10000000
+                        owner:
+                          id: 1
+                          first_name: Clair
+                          middle_name: Conn
+                          last_name: Kshlerin
+                          sex: F
+                          date_of_birth: '1980-07-17'
+                          place_of_birth: 'South Zariatown'
+                          nationality: CMR
+                          country_of_origin: CMR
+                          address_line_1: '49914 Braun Station'
+                          address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                          phone: +1-425-449-2435
+                          email: wterry@example.net
+                          created_at_branch: 1
+                          created_by: 1
+                          lastly_updated_by: null
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_at_branch:
+                          id: 1
+                          name: 'United Bank for Africa - Head Office'
+                          address_line_1: '95539 Jessica Manor'
+                          address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                          state: LT
+                          country: CMR
+                          bank_id: 1
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_by:
+                          id: 1
+                          name: 'Judson Gulgowski'
+                          email: kari.koelpin@example.com
+                          email_verified_at: '2022-01-21T12:02:54.000000Z'
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T16:50:32.000000Z'
+                        updated_at: '2022-01-21T16:50:32.000000Z'
+                    items:
+                      type: object
+      tags:
+        - 'Bank Account Management'
+  '/api/v1/bank-accounts/{bank_account}':
+    get:
+      summary: 'Find a bank account'
+      description: 'This endpoint fetches a bank account by id.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 111
+                    account_number: CMR73992847856920609232543516
+                    account_type: CURRENT
+                    account_balance: 10000000
+                    owner:
+                      id: 1
+                      first_name: Clair
+                      middle_name: Conn
+                      last_name: Kshlerin
+                      sex: F
+                      date_of_birth: '1980-07-17'
+                      place_of_birth: 'South Zariatown'
+                      nationality: CMR
+                      country_of_origin: CMR
+                      address_line_1: '49914 Braun Station'
+                      address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                      phone: +1-425-449-2435
+                      email: wterry@example.net
+                      created_at_branch: 1
+                      created_by: 1
+                      lastly_updated_by: null
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_at_branch:
+                      id: 1
+                      name: 'United Bank for Africa - Head Office'
+                      address_line_1: '95539 Jessica Manor'
+                      address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                      state: LT
+                      country: CMR
+                      bank_id: 1
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_by:
+                      id: 1
+                      name: 'Judson Gulgowski'
+                      email: kari.koelpin@example.com
+                      email_verified_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_at: '2022-01-21T16:50:32.000000Z'
+                    updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 111
+                      account_number: CMR73992847856920609232543516
+                      account_type: CURRENT
+                      account_balance: 10000000
+                      owner:
+                        id: 1
+                        first_name: Clair
+                        middle_name: Conn
+                        last_name: Kshlerin
+                        sex: F
+                        date_of_birth: '1980-07-17'
+                        place_of_birth: 'South Zariatown'
+                        nationality: CMR
+                        country_of_origin: CMR
+                        address_line_1: '49914 Braun Station'
+                        address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                        phone: +1-425-449-2435
+                        email: wterry@example.net
+                        created_at_branch: 1
+                        created_by: 1
+                        lastly_updated_by: null
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+      tags:
+        - 'Bank Account Management'
+    parameters:
+      -
+        in: path
+        name: bank_account
+        description: 'The bank account id. Default 1.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/bank-accounts/{bank_account}/transfer-histories':
+    get:
+      summary: 'Display transfer histories'
+      description: 'Fetches all transfer histories. Note that deposits and withdrawal are not included.'
+      parameters:
+        -
+          in: query
+          name: page_size
+          description: 'Size per page. Default is 20.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Size per page. Default is 20.'
+            example: 20
+        -
+          in: query
+          name: page
+          description: 'Page to view. Default is 1.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page to view. Default is 1.'
+            example: 1
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Bank Account Management'
+    parameters:
+      -
+        in: path
+        name: bank_account
+        description: 'The bank account id. Default 1.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/bank-accounts/{bank_account}/account-balance':
+    get:
+      summary: 'Get bank account balance'
+      description: 'The current balance of the bank account will be returned.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Bank Account Management'
+    parameters:
+      -
+        in: path
+        name: bank_account
+        description: 'The bank account id. Default 1.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/bank-transactions/transfer:
+    post:
+      summary: 'Transfer Service'
+      description: 'This endpoint transfers money from one account to another'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Bank Account Transactions'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                from:
+                  type: string
+                  description: ''
+                  example: dolorem
+                to:
+                  type: string
+                  description: ''
+                  example: harum
+                amount:
+                  type: number
+                  description: 'Must be at least 0.'
+                  example: 0
+                charges:
+                  type: number
+                  description: 'Must be at least 0.'
+                  example: 0
+                comments:
+                  type: string
+                  description: ''
+                  example: null
+              required:
+                - from
+                - to
+                - amount
+  /api/v1/bank-transactions/deposit:
+    post:
+      summary: 'Deposit Service'
+      description: 'This endpoint deposits money into an account'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Bank Account Transactions'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                account_number:
+                  type: string
+                  description: ''
+                  example: dolor
+                amount:
+                  type: number
+                  description: 'Must be at least 0.'
+                  example: 0
+                charges:
+                  type: number
+                  description: 'Must be at least 0.'
+                  example: 0
+                comments:
+                  type: string
+                  description: ''
+                  example: null
+              required:
+                - account_number
+                - amount
+  /api/v1/bank-transactions/withdraw:
+    post:
+      summary: 'Withdrawal Service'
+      description: 'This endpoint helps to withdraw monry from an account'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - 'Bank Account Transactions'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                account_number:
+                  type: string
+                  description: ''
+                  example: iure
+                amount:
+                  type: number
+                  description: 'Must be at least 0.'
+                  example: 0
+                charges:
+                  type: number
+                  description: 'Must be at least 0.'
+                  example: 0
+                comments:
+                  type: string
+                  description: ''
+                  example: null
+              required:
+                - account_number
+                - amount
+  /api/v1/bank-branches:
+    get:
+      summary: 'Get banks branches'
+      description: 'This resource fetches all the list of bank accounts.'
+      parameters:
+        -
+          in: query
+          name: page_size
+          description: 'Size per page. Default is 20.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Size per page. Default is 20.'
+            example: 20
+        -
+          in: query
+          name: page
+          description: 'Page to view. Default is 1.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page to view. Default is 1.'
+            example: 1
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: null
+                      name: 'United Bank for Africa - Head Office'
+                      bank: null
+                      created_at: null
+                      updated_at: null
+                    -
+                      id: null
+                      name: 'United Bank for Africa - Head Office'
+                      bank: null
+                      created_at: null
+                      updated_at: null
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: null
+                        name: 'United Bank for Africa - Head Office'
+                        bank: null
+                        created_at: null
+                        updated_at: null
+                      -
+                        id: null
+                        name: 'United Bank for Africa - Head Office'
+                        bank: null
+                        created_at: null
+                        updated_at: null
+                    items:
+                      type: object
+      tags:
+        - 'Bank Branches Management'
+    post:
+      summary: 'Create bank branch'
+      description: 'This endpoint creates a new bank branch.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 106
+                    account_number: CMR74042731588537717803834389
+                    account_type: CURRENT
+                    account_balance: 10000000
+                    owner:
+                      id: 1
+                      first_name: Clair
+                      middle_name: Conn
+                      last_name: Kshlerin
+                      sex: F
+                      date_of_birth: '1980-07-17'
+                      place_of_birth: 'South Zariatown'
+                      nationality: CMR
+                      country_of_origin: CMR
+                      address_line_1: '49914 Braun Station'
+                      address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                      phone: +1-425-449-2435
+                      email: wterry@example.net
+                      created_at_branch: 1
+                      created_by: 1
+                      lastly_updated_by: null
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_at_branch:
+                      id: 1
+                      name: 'United Bank for Africa - Head Office'
+                      address_line_1: '95539 Jessica Manor'
+                      address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                      state: LT
+                      country: CMR
+                      bank_id: 1
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_by:
+                      id: 1
+                      name: 'Judson Gulgowski'
+                      email: kari.koelpin@example.com
+                      email_verified_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_at: '2022-01-21T16:50:32.000000Z'
+                    updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 106
+                      account_number: CMR74042731588537717803834389
+                      account_type: CURRENT
+                      account_balance: 10000000
+                      owner:
+                        id: 1
+                        first_name: Clair
+                        middle_name: Conn
+                        last_name: Kshlerin
+                        sex: F
+                        date_of_birth: '1980-07-17'
+                        place_of_birth: 'South Zariatown'
+                        nationality: CMR
+                        country_of_origin: CMR
+                        address_line_1: '49914 Braun Station'
+                        address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                        phone: +1-425-449-2435
+                        email: wterry@example.net
+                        created_at_branch: 1
+                        created_by: 1
+                        lastly_updated_by: null
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+      tags:
+        - 'Bank Branches Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 0 characters. Must not be greater than 128 characters.'
+                  example: ''
+                address_line_1:
+                  type: string
+                  description: 'Must be at least 0 characters. Must not be greater than 64 characters.'
+                  example: kixdsn
+                address_line_2:
+                  type: string
+                  description: 'Must be at least 0 characters. Must not be greater than 64 characters.'
+                  example: pvnhldexftfmgzimzkpylpgdsmpwgirzazfobrxeap
+                state:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 3 characters.'
+                  example: x
+                country:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 3 characters.'
+                  example: p
+                bank:
+                  type: string
+                  description: ''
+                  example: tempora
+              required:
+                - name
+                - address_line_1
+                - address_line_2
+                - bank
+  '/api/v1/bank-branches/{bank_branch}':
+    get:
+      summary: 'Find a bank branch'
+      description: 'This endpoint fetches a bank branch by id.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: null
+                    name: 'United Bank for Africa - Head Office'
+                    bank: null
+                    created_at: null
+                    updated_at: null
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: null
+                      name: 'United Bank for Africa - Head Office'
+                      bank: null
+                      created_at: null
+                      updated_at: null
+      tags:
+        - 'Bank Branches Management'
+    put:
+      summary: 'Update bank branch'
+      description: 'This endpoint updates bank branch.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 107
+                    account_number: CMR94637424505240075980303265
+                    account_type: SAVINGS
+                    account_balance: 10000000
+                    owner:
+                      id: 1
+                      first_name: Clair
+                      middle_name: Conn
+                      last_name: Kshlerin
+                      sex: F
+                      date_of_birth: '1980-07-17'
+                      place_of_birth: 'South Zariatown'
+                      nationality: CMR
+                      country_of_origin: CMR
+                      address_line_1: '49914 Braun Station'
+                      address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                      phone: +1-425-449-2435
+                      email: wterry@example.net
+                      created_at_branch: 1
+                      created_by: 1
+                      lastly_updated_by: null
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_at_branch:
+                      id: 1
+                      name: 'United Bank for Africa - Head Office'
+                      address_line_1: '95539 Jessica Manor'
+                      address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                      state: LT
+                      country: CMR
+                      bank_id: 1
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_by:
+                      id: 1
+                      name: 'Judson Gulgowski'
+                      email: kari.koelpin@example.com
+                      email_verified_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_at: '2022-01-21T16:50:32.000000Z'
+                    updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 107
+                      account_number: CMR94637424505240075980303265
+                      account_type: SAVINGS
+                      account_balance: 10000000
+                      owner:
+                        id: 1
+                        first_name: Clair
+                        middle_name: Conn
+                        last_name: Kshlerin
+                        sex: F
+                        date_of_birth: '1980-07-17'
+                        place_of_birth: 'South Zariatown'
+                        nationality: CMR
+                        country_of_origin: CMR
+                        address_line_1: '49914 Braun Station'
+                        address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                        phone: +1-425-449-2435
+                        email: wterry@example.net
+                        created_at_branch: 1
+                        created_by: 1
+                        lastly_updated_by: null
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+      tags:
+        - 'Bank Branches Management'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must be at least 0 characters. Must not be greater than 128 characters.'
+                  example: vkckkgaqtkfbdywwky
+                address_line_1:
+                  type: string
+                  description: 'Must be at least 0 characters. Must not be greater than 64 characters.'
+                  example: hrnvdkrilxccnfcknbmcvqffpbfs
+                address_line_2:
+                  type: string
+                  description: 'Must be at least 0 characters. Must not be greater than 64 characters.'
+                  example: qhqxszzlxnpjvvimcpzvrrmppddsvl
+                state:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 3 characters.'
+                  example: ''
+                country:
+                  type: string
+                  description: 'Must be at least 3 characters. Must not be greater than 3 characters.'
+                  example: t
+                bank:
+                  type: string
+                  description: ''
+                  example: tempore
+              required:
+                - name
+                - address_line_1
+                - address_line_2
+                - bank
+    parameters:
+      -
+        in: path
+        name: bank_branch
+        description: 'The bank branch id. Default 1.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/customers:
+    get:
+      summary: 'Get customers'
+      description: 'This resource fetches all customers.'
+      parameters:
+        -
+          in: query
+          name: page_size
+          description: 'Size per page. Default is 20.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Size per page. Default is 20.'
+            example: 20
+        -
+          in: query
+          name: page
+          description: 'Page to view. Default is 1.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page to view. Default is 1.'
+            example: 1
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      id: 112
+                      account_number: CMR02953399571263760436818210
+                      account_type: CURRENT
+                      account_balance: 10000000
+                      owner:
+                        id: 1
+                        first_name: Clair
+                        middle_name: Conn
+                        last_name: Kshlerin
+                        sex: F
+                        date_of_birth: '1980-07-17'
+                        place_of_birth: 'South Zariatown'
+                        nationality: CMR
+                        country_of_origin: CMR
+                        address_line_1: '49914 Braun Station'
+                        address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                        phone: +1-425-449-2435
+                        email: wterry@example.net
+                        created_at_branch: 1
+                        created_by: 1
+                        lastly_updated_by: null
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+                    -
+                      id: 113
+                      account_number: CMR35956315851489802684277748
+                      account_type: SAVINGS
+                      account_balance: 10000000
+                      owner:
+                        id: 1
+                        first_name: Clair
+                        middle_name: Conn
+                        last_name: Kshlerin
+                        sex: F
+                        date_of_birth: '1980-07-17'
+                        place_of_birth: 'South Zariatown'
+                        nationality: CMR
+                        country_of_origin: CMR
+                        address_line_1: '49914 Braun Station'
+                        address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                        phone: +1-425-449-2435
+                        email: wterry@example.net
+                        created_at_branch: 1
+                        created_by: 1
+                        lastly_updated_by: null
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        id: 112
+                        account_number: CMR02953399571263760436818210
+                        account_type: CURRENT
+                        account_balance: 10000000
+                        owner:
+                          id: 1
+                          first_name: Clair
+                          middle_name: Conn
+                          last_name: Kshlerin
+                          sex: F
+                          date_of_birth: '1980-07-17'
+                          place_of_birth: 'South Zariatown'
+                          nationality: CMR
+                          country_of_origin: CMR
+                          address_line_1: '49914 Braun Station'
+                          address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                          phone: +1-425-449-2435
+                          email: wterry@example.net
+                          created_at_branch: 1
+                          created_by: 1
+                          lastly_updated_by: null
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_at_branch:
+                          id: 1
+                          name: 'United Bank for Africa - Head Office'
+                          address_line_1: '95539 Jessica Manor'
+                          address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                          state: LT
+                          country: CMR
+                          bank_id: 1
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_by:
+                          id: 1
+                          name: 'Judson Gulgowski'
+                          email: kari.koelpin@example.com
+                          email_verified_at: '2022-01-21T12:02:54.000000Z'
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T16:50:32.000000Z'
+                        updated_at: '2022-01-21T16:50:32.000000Z'
+                      -
+                        id: 113
+                        account_number: CMR35956315851489802684277748
+                        account_type: SAVINGS
+                        account_balance: 10000000
+                        owner:
+                          id: 1
+                          first_name: Clair
+                          middle_name: Conn
+                          last_name: Kshlerin
+                          sex: F
+                          date_of_birth: '1980-07-17'
+                          place_of_birth: 'South Zariatown'
+                          nationality: CMR
+                          country_of_origin: CMR
+                          address_line_1: '49914 Braun Station'
+                          address_line_2: "454 Kessler Shoal\nEast Nyahport, FL 55275"
+                          phone: +1-425-449-2435
+                          email: wterry@example.net
+                          created_at_branch: 1
+                          created_by: 1
+                          lastly_updated_by: null
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_at_branch:
+                          id: 1
+                          name: 'United Bank for Africa - Head Office'
+                          address_line_1: '95539 Jessica Manor'
+                          address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                          state: LT
+                          country: CMR
+                          bank_id: 1
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_by:
+                          id: 1
+                          name: 'Judson Gulgowski'
+                          email: kari.koelpin@example.com
+                          email_verified_at: '2022-01-21T12:02:54.000000Z'
+                          created_at: '2022-01-21T12:02:54.000000Z'
+                          updated_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T16:50:32.000000Z'
+                        updated_at: '2022-01-21T16:50:32.000000Z'
+                    items:
+                      type: object
+      tags:
+        - 'Customer Management'
+  '/api/v1/customers/{id}':
+    get:
+      summary: 'Find a customer'
+      description: 'This endpoint fetches a customer by id.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 53
+                    first_name: Orion
+                    middle_name: Pfeffer
+                    last_name: Rau
+                    sex: M
+                    date_of_birth: '1980-07-10'
+                    place_of_birth: 'West Augusta'
+                    nationality: CMR
+                    country_of_origin: CMR
+                    address_line_1: '831 Walsh Groves'
+                    address_line_2: "6212 Jovanny Brook Apt. 267\nNew Jarretthaven, OH 16862"
+                    phone: +1.917.734.4434
+                    email: elton.brown@example.org
+                    created_at_branch:
+                      id: 1
+                      name: 'United Bank for Africa - Head Office'
+                      address_line_1: '95539 Jessica Manor'
+                      address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                      state: LT
+                      country: CMR
+                      bank_id: 1
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    created_by:
+                      id: 1
+                      name: 'Judson Gulgowski'
+                      email: kari.koelpin@example.com
+                      email_verified_at: '2022-01-21T12:02:54.000000Z'
+                      created_at: '2022-01-21T12:02:54.000000Z'
+                      updated_at: '2022-01-21T12:02:54.000000Z'
+                    lastly_updated_by: null
+                    created_at: '2022-01-21T16:50:32.000000Z'
+                    updated_at: '2022-01-21T16:50:32.000000Z'
+                properties:
+                  data:
+                    type: object
+                    example:
+                      id: 53
+                      first_name: Orion
+                      middle_name: Pfeffer
+                      last_name: Rau
+                      sex: M
+                      date_of_birth: '1980-07-10'
+                      place_of_birth: 'West Augusta'
+                      nationality: CMR
+                      country_of_origin: CMR
+                      address_line_1: '831 Walsh Groves'
+                      address_line_2: "6212 Jovanny Brook Apt. 267\nNew Jarretthaven, OH 16862"
+                      phone: +1.917.734.4434
+                      email: elton.brown@example.org
+                      created_at_branch:
+                        id: 1
+                        name: 'United Bank for Africa - Head Office'
+                        address_line_1: '95539 Jessica Manor'
+                        address_line_2: "555 Gay Brook Suite 402\nLake Alfredo, NC 89714"
+                        state: LT
+                        country: CMR
+                        bank_id: 1
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      created_by:
+                        id: 1
+                        name: 'Judson Gulgowski'
+                        email: kari.koelpin@example.com
+                        email_verified_at: '2022-01-21T12:02:54.000000Z'
+                        created_at: '2022-01-21T12:02:54.000000Z'
+                        updated_at: '2022-01-21T12:02:54.000000Z'
+                      lastly_updated_by: null
+                      created_at: '2022-01-21T16:50:32.000000Z'
+                      updated_at: '2022-01-21T16:50:32.000000Z'
+      tags:
+        - 'Customer Management'
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the customer.'
+        example: 13
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: customer
+        description: 'The customer id. Default 1.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/bank-transactions:
+    get:
+      summary: 'Get all transactions'
+      description: 'This resource fetches all the list of transactions.'
+      parameters:
+        -
+          in: query
+          name: page_size
+          description: 'Size per page. Default is 20.'
+          example: 20
+          required: false
+          schema:
+            type: integer
+            description: 'Size per page. Default is 20.'
+            example: 20
+        -
+          in: query
+          name: page
+          description: 'Page to view. Default is 1.'
+          example: 1
+          required: false
+          schema:
+            type: integer
+            description: 'Page to view. Default is 1.'
+            example: 1
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Transaction History'
+  '/api/v1/bank-transactions/{bank_transaction}':
+    get:
+      summary: 'Find a transaction history'
+      description: 'This endpoint fetches a transaction history by id.'
+      parameters:
+        -
+          in: header
+          name: Authorization
+          description: ''
+          example: 'Bearer {YOUR_AUTH_KEY}'
+          schema:
+            type: string
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - 'Transaction History'
+    parameters:
+      -
+        in: path
+        name: bank_transaction
+        description: ''
+        example: est
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: transaction_history
+        description: 'The transaction history id. Default 1.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+tags:
+  -
+    name: 'Bank Management'
+    description: ''
+  -
+    name: 'Auth - User management'
+    description: "\nThe API to perform simple user management."
+  -
+    name: 'Bank Account Management'
+    description: ''
+  -
+    name: 'Bank Account Transactions'
+    description: ''
+  -
+    name: 'Bank Branches Management'
+    description: ''
+  -
+    name: 'Customer Management'
+    description: ''
+  -
+    name: 'Transaction History'
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: ''
+security:
+  -
+    default: []

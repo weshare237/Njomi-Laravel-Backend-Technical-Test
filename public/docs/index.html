@@ -1,0 +1,3781 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Banking API Documentation</title>
+
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../docs/css/theme-default.style.css" media="screen">
+    <link rel="stylesheet" href="../docs/css/theme-default.print.css" media="print">
+
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
+
+    <link rel="stylesheet"
+          href="https://unpkg.com/@highlightjs/cdn-assets@10.7.2/styles/obsidian.min.css">
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@10.7.2/highlight.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jets/0.14.1/jets.min.js"></script>
+
+    <style id="language-style">
+        /* starts out as display none and is replaced with js later  */
+                    body .content .bash-example code { display: none; }
+                    body .content .javascript-example code { display: none; }
+            </style>
+
+    <script>
+        var baseUrl = "http://localhost:8000";
+        var useCsrf = Boolean();
+        var csrfUrl = "/sanctum/csrf-cookie";
+    </script>
+    <script src="../docs/js/tryitout-3.21.0.js"></script>
+
+    <script src="../docs/js/theme-default-3.21.0.js"></script>
+
+</head>
+
+<body data-languages="[&quot;bash&quot;,&quot;javascript&quot;]">
+
+<a href="#" id="nav-button">
+    <span>
+        MENU
+        <img src="../docs/images/navbar.png" alt="navbar-image" />
+    </span>
+</a>
+<div class="tocify-wrapper">
+    
+            <div class="lang-selector">
+                                            <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                            <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                    </div>
+    
+    <div class="search">
+        <input type="text" class="search" id="input-search" placeholder="Search">
+    </div>
+
+    <div id="toc">
+                                                                            <ul id="tocify-header-0" class="tocify-header">
+                    <li class="tocify-item level-1" data-unique="introduction">
+                        <a href="#introduction">Introduction</a>
+                    </li>
+                                            
+                                                                    </ul>
+                                                <ul id="tocify-header-1" class="tocify-header">
+                    <li class="tocify-item level-1" data-unique="authenticating-requests">
+                        <a href="#authenticating-requests">Authenticating requests</a>
+                    </li>
+                                            
+                                                </ul>
+                    
+                    <ul id="tocify-header-2" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="bank-management">
+                    <a href="#bank-management">Bank Management</a>
+                </li>
+                                    <ul id="tocify-subheader-bank-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="bank-management-GETapi-v1-banks">
+                        <a href="#bank-management-GETapi-v1-banks">Get banks branches</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-management-GETapi-v1-banks--id-">
+                        <a href="#bank-management-GETapi-v1-banks--id-">Find a bank</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-management-PUTapi-v1-banks--id-">
+                        <a href="#bank-management-PUTapi-v1-banks--id-">Update bank</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-management-GETapi-v1-banks--bank--bank-branches">
+                        <a href="#bank-management-GETapi-v1-banks--bank--bank-branches">Get branches of a bank</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-3" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="auth-user-management">
+                    <a href="#auth-user-management">Auth - User management</a>
+                </li>
+                                    <ul id="tocify-subheader-auth-user-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="auth-user-management-GETapi-v1-users-random">
+                        <a href="#auth-user-management-GETapi-v1-users-random">GET api/v1/users/random</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="auth-user-management-GETapi-v1-users-random-access-token">
+                        <a href="#auth-user-management-GETapi-v1-users-random-access-token">Login
+Get Random Access Token</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="auth-user-management-GETapi-v1-users.me">
+                        <a href="#auth-user-management-GETapi-v1-users.me">Get Me</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-4" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="bank-account-management">
+                    <a href="#bank-account-management">Bank Account Management</a>
+                </li>
+                                    <ul id="tocify-subheader-bank-account-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="bank-account-management-POSTapi-v1-bank-accounts">
+                        <a href="#bank-account-management-POSTapi-v1-bank-accounts">Create bank account</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-account-management-GETapi-v1-bank-accounts">
+                        <a href="#bank-account-management-GETapi-v1-bank-accounts">Get banks accounts</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-account-management-GETapi-v1-bank-accounts--bank_account-">
+                        <a href="#bank-account-management-GETapi-v1-bank-accounts--bank_account-">Find a bank account</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-account-management-GETapi-v1-bank-accounts--bank_account--transfer-histories">
+                        <a href="#bank-account-management-GETapi-v1-bank-accounts--bank_account--transfer-histories">Display transfer histories</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-account-management-GETapi-v1-bank-accounts--bank_account--account-balance">
+                        <a href="#bank-account-management-GETapi-v1-bank-accounts--bank_account--account-balance">Get bank account balance</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-5" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="bank-account-transactions">
+                    <a href="#bank-account-transactions">Bank Account Transactions</a>
+                </li>
+                                    <ul id="tocify-subheader-bank-account-transactions" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="bank-account-transactions-POSTapi-v1-bank-transactions-transfer">
+                        <a href="#bank-account-transactions-POSTapi-v1-bank-transactions-transfer">Transfer Service</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-account-transactions-POSTapi-v1-bank-transactions-deposit">
+                        <a href="#bank-account-transactions-POSTapi-v1-bank-transactions-deposit">Deposit Service</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-account-transactions-POSTapi-v1-bank-transactions-withdraw">
+                        <a href="#bank-account-transactions-POSTapi-v1-bank-transactions-withdraw">Withdrawal Service</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-6" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="bank-branches-management">
+                    <a href="#bank-branches-management">Bank Branches Management</a>
+                </li>
+                                    <ul id="tocify-subheader-bank-branches-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="bank-branches-management-GETapi-v1-bank-branches">
+                        <a href="#bank-branches-management-GETapi-v1-bank-branches">Get banks branches</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-branches-management-POSTapi-v1-bank-branches">
+                        <a href="#bank-branches-management-POSTapi-v1-bank-branches">Create bank branch</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-branches-management-GETapi-v1-bank-branches--bank_branch-">
+                        <a href="#bank-branches-management-GETapi-v1-bank-branches--bank_branch-">Find a bank branch</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="bank-branches-management-PUTapi-v1-bank-branches--bank_branch-">
+                        <a href="#bank-branches-management-PUTapi-v1-bank-branches--bank_branch-">Update bank branch</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-7" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="customer-management">
+                    <a href="#customer-management">Customer Management</a>
+                </li>
+                                    <ul id="tocify-subheader-customer-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="customer-management-GETapi-v1-customers">
+                        <a href="#customer-management-GETapi-v1-customers">Get customers</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="customer-management-GETapi-v1-customers--id-">
+                        <a href="#customer-management-GETapi-v1-customers--id-">Find a customer</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+                    <ul id="tocify-header-8" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="transaction-history">
+                    <a href="#transaction-history">Transaction History</a>
+                </li>
+                                    <ul id="tocify-subheader-transaction-history" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="transaction-history-GETapi-v1-bank-transactions">
+                        <a href="#transaction-history-GETapi-v1-bank-transactions">Get all transactions</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="transaction-history-GETapi-v1-bank-transactions--bank_transaction-">
+                        <a href="#transaction-history-GETapi-v1-bank-transactions--bank_transaction-">Find a transaction history</a>
+                    </li>
+                                                    </ul>
+                            </ul>
+        
+                        
+            </div>
+
+            <ul class="toc-footer" id="toc-footer">
+                            <li><a href="../docs/collection.json">View Postman collection</a></li>
+                            <li><a href="../docs/openapi.yaml">View OpenAPI spec</a></li>
+                            <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
+                    </ul>
+        <ul class="toc-footer" id="last-updated">
+        <li>Last updated: January 21 2022</li>
+    </ul>
+</div>
+
+<div class="page-wrapper">
+    <div class="dark-box"></div>
+    <div class="content">
+        <h1 id="introduction">Introduction</h1>
+<p>This documentation aims to provide all the information you need to work with our API.</p>
+<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
+<blockquote>
+<p>Base URL</p>
+</blockquote>
+<pre><code class="language-yaml">http://localhost:8000</code></pre>
+
+        <h1 id="authenticating-requests">Authenticating requests</h1>
+<p>To authenticate requests, include an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
+<p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
+<p>You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.</p>
+
+        <h1 id="bank-management">Bank Management</h1>
+
+    
+
+            <h2 id="bank-management-GETapi-v1-banks">Get banks branches</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This resource fetches all the list of bank accounts.</p>
+
+<span id="example-requests-GETapi-v1-banks">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/banks?page_size=20&amp;page=1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/banks"
+);
+
+const params = {
+    "page_size": "20",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-banks">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 2,
+            &quot;name&quot;: &quot;United Bank for Africa&quot;,
+            &quot;code&quot;: &quot;4NQZFW&quot;,
+            &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;name&quot;: &quot;United Bank for Africa&quot;,
+            &quot;code&quot;: &quot;SER1PU&quot;,
+            &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-banks" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-banks"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-banks"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-banks" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-banks"></code></pre>
+</span>
+<form id="form-GETapi-v1-banks" data-method="GET"
+      data-path="api/v1/banks"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-banks', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-banks"
+                    onclick="tryItOut('GETapi-v1-banks');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-banks"
+                    onclick="cancelTryOut('GETapi-v1-banks');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-banks" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/banks</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-banks" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-banks"
+                                                                data-component="header"></label>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page_size</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page_size"
+               data-endpoint="GETapi-v1-banks"
+               value="20"
+               data-component="query" hidden>
+    <br>
+<p>Size per page. Default is 20.</p>
+            </p>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-v1-banks"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>Page to view. Default is 1.</p>
+            </p>
+                </form>
+
+            <h2 id="bank-management-GETapi-v1-banks--id-">Find a bank</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint fetches a bank by id.</p>
+
+<span id="example-requests-GETapi-v1-banks--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/banks/11" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/banks/11"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-banks--id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 4,
+        &quot;name&quot;: &quot;United Bank for Africa&quot;,
+        &quot;code&quot;: &quot;SYJC1I&quot;,
+        &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-banks--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-banks--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-banks--id-"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-banks--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-banks--id-"></code></pre>
+</span>
+<form id="form-GETapi-v1-banks--id-" data-method="GET"
+      data-path="api/v1/banks/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-banks--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-banks--id-"
+                    onclick="tryItOut('GETapi-v1-banks--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-banks--id-"
+                    onclick="cancelTryOut('GETapi-v1-banks--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-banks--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/banks/{id}</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-banks--id-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-banks--id-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="GETapi-v1-banks--id-"
+               value="11"
+               data-component="url" hidden>
+    <br>
+<p>The ID of the bank.</p>
+            </p>
+                    <p>
+                <b><code>bank</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="bank"
+               data-endpoint="GETapi-v1-banks--id-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The bank branch id. Default 1.</p>
+            </p>
+                    </form>
+
+            <h2 id="bank-management-PUTapi-v1-banks--id-">Update bank</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint updates bank.</p>
+
+<span id="example-requests-PUTapi-v1-banks--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/v1/banks/6" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"hddpurnnvautwy\",
+    \"code\": \"tuogbqnc\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/banks/6"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "hddpurnnvautwy",
+    "code": "tuogbqnc"
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-v1-banks--id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 5,
+        &quot;name&quot;: &quot;United Bank for Africa&quot;,
+        &quot;code&quot;: &quot;BEOYAY&quot;,
+        &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PUTapi-v1-banks--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-v1-banks--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-v1-banks--id-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-v1-banks--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-v1-banks--id-"></code></pre>
+</span>
+<form id="form-PUTapi-v1-banks--id-" data-method="PUT"
+      data-path="api/v1/banks/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-banks--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-v1-banks--id-"
+                    onclick="tryItOut('PUTapi-v1-banks--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-v1-banks--id-"
+                    onclick="cancelTryOut('PUTapi-v1-banks--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-v1-banks--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/v1/banks/{id}</code></b>
+        </p>
+            <p>
+            <small class="badge badge-purple">PATCH</small>
+            <b><code>api/v1/banks/{id}</code></b>
+        </p>
+                <p>
+            <label id="auth-PUTapi-v1-banks--id-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="PUTapi-v1-banks--id-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="PUTapi-v1-banks--id-"
+               value="6"
+               data-component="url" hidden>
+    <br>
+<p>The ID of the bank.</p>
+            </p>
+                    <p>
+                <b><code>bank</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="bank"
+               data-endpoint="PUTapi-v1-banks--id-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The bank branch id. Default 1.</p>
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="PUTapi-v1-banks--id-"
+               value="hddpurnnvautwy"
+               data-component="body" hidden>
+    <br>
+<p>Must not be greater than 128 characters.</p>
+        </p>
+                <p>
+            <b><code>code</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="code"
+               data-endpoint="PUTapi-v1-banks--id-"
+               value="tuogbqnc"
+               data-component="body" hidden>
+    <br>
+<p>Must not be greater than 16 characters.</p>
+        </p>
+        </form>
+
+            <h2 id="bank-management-GETapi-v1-banks--bank--bank-branches">Get branches of a bank</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This resource fetches the list of branches in a bank.</p>
+
+<span id="example-requests-GETapi-v1-banks--bank--bank-branches">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/banks/1/bank-branches?page_size=20&amp;page=1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/banks/1/bank-branches"
+);
+
+const params = {
+    "page_size": "20",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-banks--bank--bank-branches">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: null,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;bank&quot;: null,
+            &quot;created_at&quot;: null,
+            &quot;updated_at&quot;: null
+        },
+        {
+            &quot;id&quot;: null,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;bank&quot;: null,
+            &quot;created_at&quot;: null,
+            &quot;updated_at&quot;: null
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-banks--bank--bank-branches" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-banks--bank--bank-branches"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-banks--bank--bank-branches"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-banks--bank--bank-branches" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-banks--bank--bank-branches"></code></pre>
+</span>
+<form id="form-GETapi-v1-banks--bank--bank-branches" data-method="GET"
+      data-path="api/v1/banks/{bank}/bank-branches"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-banks--bank--bank-branches', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-banks--bank--bank-branches"
+                    onclick="tryItOut('GETapi-v1-banks--bank--bank-branches');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-banks--bank--bank-branches"
+                    onclick="cancelTryOut('GETapi-v1-banks--bank--bank-branches');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-banks--bank--bank-branches" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/banks/{bank}/bank-branches</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-banks--bank--bank-branches" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-banks--bank--bank-branches"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>bank</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="bank"
+               data-endpoint="GETapi-v1-banks--bank--bank-branches"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The bank branch id. Default 1.</p>
+            </p>
+                        <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page_size</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page_size"
+               data-endpoint="GETapi-v1-banks--bank--bank-branches"
+               value="20"
+               data-component="query" hidden>
+    <br>
+<p>Size per page. Default is 20.</p>
+            </p>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-v1-banks--bank--bank-branches"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>Page to view. Default is 1.</p>
+            </p>
+                </form>
+
+        <h1 id="auth-user-management">Auth - User management</h1>
+
+    <p>The API to perform simple user management.</p>
+
+            <h2 id="auth-user-management-GETapi-v1-users-random">GET api/v1/users/random</h2>
+
+<p>
+</p>
+
+
+
+<span id="example-requests-GETapi-v1-users-random">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/users/random" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/users/random"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-users-random">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 59
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+        &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+        &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-users-random" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-users-random"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-users-random"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-users-random" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-users-random"></code></pre>
+</span>
+<form id="form-GETapi-v1-users-random" data-method="GET"
+      data-path="api/v1/users/random"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-users-random', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-users-random"
+                    onclick="tryItOut('GETapi-v1-users-random');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-users-random"
+                    onclick="cancelTryOut('GETapi-v1-users-random');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-users-random" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/users/random</code></b>
+        </p>
+                    </form>
+
+            <h2 id="auth-user-management-GETapi-v1-users-random-access-token">Login
+Get Random Access Token</h2>
+
+<p>
+</p>
+
+<p>The generates a random access token for a random user.</p>
+
+<span id="example-requests-GETapi-v1-users-random-access-token">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/users/random-access-token" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/users/random-access-token"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-users-random-access-token">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+x-ratelimit-limit: 60
+x-ratelimit-remaining: 58
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;token&quot;: &quot;9|BFHRY3P2a0KLLyZo63vGMH5WcUHsb1nDaPnD5G4C&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-users-random-access-token" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-users-random-access-token"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-users-random-access-token"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-users-random-access-token" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-users-random-access-token"></code></pre>
+</span>
+<form id="form-GETapi-v1-users-random-access-token" data-method="GET"
+      data-path="api/v1/users/random-access-token"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-users-random-access-token', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-users-random-access-token"
+                    onclick="tryItOut('GETapi-v1-users-random-access-token');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-users-random-access-token"
+                    onclick="cancelTryOut('GETapi-v1-users-random-access-token');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-users-random-access-token" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/users/random-access-token</code></b>
+        </p>
+                    </form>
+
+            <h2 id="auth-user-management-GETapi-v1-users.me">Get Me</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Fetches the details of the currently authenticated user</p>
+
+<span id="example-requests-GETapi-v1-users.me">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/users.me" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/users.me"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-users.me">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 13,
+        &quot;name&quot;: &quot;Lois Kuhlman&quot;,
+        &quot;email&quot;: &quot;maximus.kuvalis@example.org&quot;,
+        &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-users.me" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-users.me"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-users.me"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-users.me" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-users.me"></code></pre>
+</span>
+<form id="form-GETapi-v1-users.me" data-method="GET"
+      data-path="api/v1/users.me"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-users.me', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-users.me"
+                    onclick="tryItOut('GETapi-v1-users.me');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-users.me"
+                    onclick="cancelTryOut('GETapi-v1-users.me');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-users.me" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/users.me</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-users.me" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-users.me"
+                                                                data-component="header"></label>
+        </p>
+                </form>
+
+        <h1 id="bank-account-management">Bank Account Management</h1>
+
+    
+
+            <h2 id="bank-account-management-POSTapi-v1-bank-accounts">Create bank account</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint creates a new bank account.</p>
+
+<span id="example-requests-POSTapi-v1-bank-accounts">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/bank-accounts" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"account_type\": \"libero\",
+    \"initial_deposit\": \"\",
+    \"customer_id\": \"maxime\",
+    \"created_at_branch\": 14
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-accounts"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "account_type": "libero",
+    "initial_deposit": "",
+    "customer_id": "maxime",
+    "created_at_branch": 14
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-bank-accounts">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 108,
+        &quot;account_number&quot;: &quot;CMR58543672034969657820831316&quot;,
+        &quot;account_type&quot;: &quot;CURRENT&quot;,
+        &quot;account_balance&quot;: 10000000,
+        &quot;owner&quot;: {
+            &quot;id&quot;: 1,
+            &quot;first_name&quot;: &quot;Clair&quot;,
+            &quot;middle_name&quot;: &quot;Conn&quot;,
+            &quot;last_name&quot;: &quot;Kshlerin&quot;,
+            &quot;sex&quot;: &quot;F&quot;,
+            &quot;date_of_birth&quot;: &quot;1980-07-17&quot;,
+            &quot;place_of_birth&quot;: &quot;South Zariatown&quot;,
+            &quot;nationality&quot;: &quot;CMR&quot;,
+            &quot;country_of_origin&quot;: &quot;CMR&quot;,
+            &quot;address_line_1&quot;: &quot;49914 Braun Station&quot;,
+            &quot;address_line_2&quot;: &quot;454 Kessler Shoal\nEast Nyahport, FL 55275&quot;,
+            &quot;phone&quot;: &quot;+1-425-449-2435&quot;,
+            &quot;email&quot;: &quot;wterry@example.net&quot;,
+            &quot;created_at_branch&quot;: 1,
+            &quot;created_by&quot;: 1,
+            &quot;lastly_updated_by&quot;: null,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_at_branch&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+            &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+            &quot;state&quot;: &quot;LT&quot;,
+            &quot;country&quot;: &quot;CMR&quot;,
+            &quot;bank_id&quot;: 1,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_by&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+            &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+            &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-bank-accounts" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-bank-accounts"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-bank-accounts"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-bank-accounts" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-bank-accounts"></code></pre>
+</span>
+<form id="form-POSTapi-v1-bank-accounts" data-method="POST"
+      data-path="api/v1/bank-accounts"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-bank-accounts', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-bank-accounts"
+                    onclick="tryItOut('POSTapi-v1-bank-accounts');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-bank-accounts"
+                    onclick="cancelTryOut('POSTapi-v1-bank-accounts');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-bank-accounts" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/bank-accounts</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTapi-v1-bank-accounts" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTapi-v1-bank-accounts"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>account_type</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="account_type"
+               data-endpoint="POSTapi-v1-bank-accounts"
+               value="libero"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>initial_deposit</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="initial_deposit"
+               data-endpoint="POSTapi-v1-bank-accounts"
+               value=""
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0 characters.</p>
+        </p>
+                <p>
+            <b><code>customer_id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="customer_id"
+               data-endpoint="POSTapi-v1-bank-accounts"
+               value="maxime"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>created_at_branch</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="created_at_branch"
+               data-endpoint="POSTapi-v1-bank-accounts"
+               value="14"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="bank-account-management-GETapi-v1-bank-accounts">Get banks accounts</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This resource fetches all the list of bank accounts.</p>
+
+<span id="example-requests-GETapi-v1-bank-accounts">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bank-accounts?page_size=20&amp;page=1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-accounts"
+);
+
+const params = {
+    "page_size": "20",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bank-accounts">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 109,
+            &quot;account_number&quot;: &quot;CMR36264588103602874716988349&quot;,
+            &quot;account_type&quot;: &quot;SAVINGS&quot;,
+            &quot;account_balance&quot;: 10000000,
+            &quot;owner&quot;: {
+                &quot;id&quot;: 1,
+                &quot;first_name&quot;: &quot;Clair&quot;,
+                &quot;middle_name&quot;: &quot;Conn&quot;,
+                &quot;last_name&quot;: &quot;Kshlerin&quot;,
+                &quot;sex&quot;: &quot;F&quot;,
+                &quot;date_of_birth&quot;: &quot;1980-07-17&quot;,
+                &quot;place_of_birth&quot;: &quot;South Zariatown&quot;,
+                &quot;nationality&quot;: &quot;CMR&quot;,
+                &quot;country_of_origin&quot;: &quot;CMR&quot;,
+                &quot;address_line_1&quot;: &quot;49914 Braun Station&quot;,
+                &quot;address_line_2&quot;: &quot;454 Kessler Shoal\nEast Nyahport, FL 55275&quot;,
+                &quot;phone&quot;: &quot;+1-425-449-2435&quot;,
+                &quot;email&quot;: &quot;wterry@example.net&quot;,
+                &quot;created_at_branch&quot;: 1,
+                &quot;created_by&quot;: 1,
+                &quot;lastly_updated_by&quot;: null,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_at_branch&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+                &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+                &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+                &quot;state&quot;: &quot;LT&quot;,
+                &quot;country&quot;: &quot;CMR&quot;,
+                &quot;bank_id&quot;: 1,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+                &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+                &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+        },
+        {
+            &quot;id&quot;: 110,
+            &quot;account_number&quot;: &quot;CMR42820148935540756737418645&quot;,
+            &quot;account_type&quot;: &quot;SAVINGS&quot;,
+            &quot;account_balance&quot;: 10000000,
+            &quot;owner&quot;: {
+                &quot;id&quot;: 1,
+                &quot;first_name&quot;: &quot;Clair&quot;,
+                &quot;middle_name&quot;: &quot;Conn&quot;,
+                &quot;last_name&quot;: &quot;Kshlerin&quot;,
+                &quot;sex&quot;: &quot;F&quot;,
+                &quot;date_of_birth&quot;: &quot;1980-07-17&quot;,
+                &quot;place_of_birth&quot;: &quot;South Zariatown&quot;,
+                &quot;nationality&quot;: &quot;CMR&quot;,
+                &quot;country_of_origin&quot;: &quot;CMR&quot;,
+                &quot;address_line_1&quot;: &quot;49914 Braun Station&quot;,
+                &quot;address_line_2&quot;: &quot;454 Kessler Shoal\nEast Nyahport, FL 55275&quot;,
+                &quot;phone&quot;: &quot;+1-425-449-2435&quot;,
+                &quot;email&quot;: &quot;wterry@example.net&quot;,
+                &quot;created_at_branch&quot;: 1,
+                &quot;created_by&quot;: 1,
+                &quot;lastly_updated_by&quot;: null,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_at_branch&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+                &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+                &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+                &quot;state&quot;: &quot;LT&quot;,
+                &quot;country&quot;: &quot;CMR&quot;,
+                &quot;bank_id&quot;: 1,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+                &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+                &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bank-accounts" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bank-accounts"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bank-accounts"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bank-accounts" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bank-accounts"></code></pre>
+</span>
+<form id="form-GETapi-v1-bank-accounts" data-method="GET"
+      data-path="api/v1/bank-accounts"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bank-accounts', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bank-accounts"
+                    onclick="tryItOut('GETapi-v1-bank-accounts');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bank-accounts"
+                    onclick="cancelTryOut('GETapi-v1-bank-accounts');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bank-accounts" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bank-accounts</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-bank-accounts" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-bank-accounts"
+                                                                data-component="header"></label>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page_size</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page_size"
+               data-endpoint="GETapi-v1-bank-accounts"
+               value="20"
+               data-component="query" hidden>
+    <br>
+<p>Size per page. Default is 20.</p>
+            </p>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-v1-bank-accounts"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>Page to view. Default is 1.</p>
+            </p>
+                </form>
+
+            <h2 id="bank-account-management-GETapi-v1-bank-accounts--bank_account-">Find a bank account</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint fetches a bank account by id.</p>
+
+<span id="example-requests-GETapi-v1-bank-accounts--bank_account-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bank-accounts/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-accounts/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bank-accounts--bank_account-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 111,
+        &quot;account_number&quot;: &quot;CMR73992847856920609232543516&quot;,
+        &quot;account_type&quot;: &quot;CURRENT&quot;,
+        &quot;account_balance&quot;: 10000000,
+        &quot;owner&quot;: {
+            &quot;id&quot;: 1,
+            &quot;first_name&quot;: &quot;Clair&quot;,
+            &quot;middle_name&quot;: &quot;Conn&quot;,
+            &quot;last_name&quot;: &quot;Kshlerin&quot;,
+            &quot;sex&quot;: &quot;F&quot;,
+            &quot;date_of_birth&quot;: &quot;1980-07-17&quot;,
+            &quot;place_of_birth&quot;: &quot;South Zariatown&quot;,
+            &quot;nationality&quot;: &quot;CMR&quot;,
+            &quot;country_of_origin&quot;: &quot;CMR&quot;,
+            &quot;address_line_1&quot;: &quot;49914 Braun Station&quot;,
+            &quot;address_line_2&quot;: &quot;454 Kessler Shoal\nEast Nyahport, FL 55275&quot;,
+            &quot;phone&quot;: &quot;+1-425-449-2435&quot;,
+            &quot;email&quot;: &quot;wterry@example.net&quot;,
+            &quot;created_at_branch&quot;: 1,
+            &quot;created_by&quot;: 1,
+            &quot;lastly_updated_by&quot;: null,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_at_branch&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+            &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+            &quot;state&quot;: &quot;LT&quot;,
+            &quot;country&quot;: &quot;CMR&quot;,
+            &quot;bank_id&quot;: 1,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_by&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+            &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+            &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bank-accounts--bank_account-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bank-accounts--bank_account-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bank-accounts--bank_account-"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bank-accounts--bank_account-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bank-accounts--bank_account-"></code></pre>
+</span>
+<form id="form-GETapi-v1-bank-accounts--bank_account-" data-method="GET"
+      data-path="api/v1/bank-accounts/{bank_account}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bank-accounts--bank_account-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bank-accounts--bank_account-"
+                    onclick="tryItOut('GETapi-v1-bank-accounts--bank_account-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bank-accounts--bank_account-"
+                    onclick="cancelTryOut('GETapi-v1-bank-accounts--bank_account-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bank-accounts--bank_account-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bank-accounts/{bank_account}</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-bank-accounts--bank_account-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-bank-accounts--bank_account-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>bank_account</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="bank_account"
+               data-endpoint="GETapi-v1-bank-accounts--bank_account-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The bank account id. Default 1.</p>
+            </p>
+                    </form>
+
+            <h2 id="bank-account-management-GETapi-v1-bank-accounts--bank_account--transfer-histories">Display transfer histories</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>Fetches all transfer histories. Note that deposits and withdrawal are not included.</p>
+
+<span id="example-requests-GETapi-v1-bank-accounts--bank_account--transfer-histories">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bank-accounts/1/transfer-histories?page_size=20&amp;page=1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-accounts/1/transfer-histories"
+);
+
+const params = {
+    "page_size": "20",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bank-accounts--bank_account--transfer-histories">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bank-accounts--bank_account--transfer-histories" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bank-accounts--bank_account--transfer-histories"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bank-accounts--bank_account--transfer-histories"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bank-accounts--bank_account--transfer-histories" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bank-accounts--bank_account--transfer-histories"></code></pre>
+</span>
+<form id="form-GETapi-v1-bank-accounts--bank_account--transfer-histories" data-method="GET"
+      data-path="api/v1/bank-accounts/{bank_account}/transfer-histories"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bank-accounts--bank_account--transfer-histories', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bank-accounts--bank_account--transfer-histories"
+                    onclick="tryItOut('GETapi-v1-bank-accounts--bank_account--transfer-histories');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bank-accounts--bank_account--transfer-histories"
+                    onclick="cancelTryOut('GETapi-v1-bank-accounts--bank_account--transfer-histories');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bank-accounts--bank_account--transfer-histories" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bank-accounts/{bank_account}/transfer-histories</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-bank-accounts--bank_account--transfer-histories" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-bank-accounts--bank_account--transfer-histories"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>bank_account</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="bank_account"
+               data-endpoint="GETapi-v1-bank-accounts--bank_account--transfer-histories"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The bank account id. Default 1.</p>
+            </p>
+                        <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page_size</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page_size"
+               data-endpoint="GETapi-v1-bank-accounts--bank_account--transfer-histories"
+               value="20"
+               data-component="query" hidden>
+    <br>
+<p>Size per page. Default is 20.</p>
+            </p>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-v1-bank-accounts--bank_account--transfer-histories"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>Page to view. Default is 1.</p>
+            </p>
+                </form>
+
+            <h2 id="bank-account-management-GETapi-v1-bank-accounts--bank_account--account-balance">Get bank account balance</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>The current balance of the bank account will be returned.</p>
+
+<span id="example-requests-GETapi-v1-bank-accounts--bank_account--account-balance">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bank-accounts/1/account-balance" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-accounts/1/account-balance"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bank-accounts--bank_account--account-balance">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bank-accounts--bank_account--account-balance" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bank-accounts--bank_account--account-balance"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bank-accounts--bank_account--account-balance"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bank-accounts--bank_account--account-balance" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bank-accounts--bank_account--account-balance"></code></pre>
+</span>
+<form id="form-GETapi-v1-bank-accounts--bank_account--account-balance" data-method="GET"
+      data-path="api/v1/bank-accounts/{bank_account}/account-balance"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bank-accounts--bank_account--account-balance', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bank-accounts--bank_account--account-balance"
+                    onclick="tryItOut('GETapi-v1-bank-accounts--bank_account--account-balance');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bank-accounts--bank_account--account-balance"
+                    onclick="cancelTryOut('GETapi-v1-bank-accounts--bank_account--account-balance');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bank-accounts--bank_account--account-balance" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bank-accounts/{bank_account}/account-balance</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-bank-accounts--bank_account--account-balance" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-bank-accounts--bank_account--account-balance"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>bank_account</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="bank_account"
+               data-endpoint="GETapi-v1-bank-accounts--bank_account--account-balance"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The bank account id. Default 1.</p>
+            </p>
+                    </form>
+
+        <h1 id="bank-account-transactions">Bank Account Transactions</h1>
+
+    
+
+            <h2 id="bank-account-transactions-POSTapi-v1-bank-transactions-transfer">Transfer Service</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint transfers money from one account to another</p>
+
+<span id="example-requests-POSTapi-v1-bank-transactions-transfer">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/bank-transactions/transfer" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"from\": \"dolorem\",
+    \"to\": \"harum\",
+    \"amount\": 0,
+    \"charges\": 0
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-transactions/transfer"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "from": "dolorem",
+    "to": "harum",
+    "amount": 0,
+    "charges": 0
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-bank-transactions-transfer">
+</span>
+<span id="execution-results-POSTapi-v1-bank-transactions-transfer" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-bank-transactions-transfer"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-bank-transactions-transfer"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-bank-transactions-transfer" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-bank-transactions-transfer"></code></pre>
+</span>
+<form id="form-POSTapi-v1-bank-transactions-transfer" data-method="POST"
+      data-path="api/v1/bank-transactions/transfer"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-bank-transactions-transfer', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-bank-transactions-transfer"
+                    onclick="tryItOut('POSTapi-v1-bank-transactions-transfer');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-bank-transactions-transfer"
+                    onclick="cancelTryOut('POSTapi-v1-bank-transactions-transfer');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-bank-transactions-transfer" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/bank-transactions/transfer</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTapi-v1-bank-transactions-transfer" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTapi-v1-bank-transactions-transfer"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>from</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="from"
+               data-endpoint="POSTapi-v1-bank-transactions-transfer"
+               value="dolorem"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>to</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="to"
+               data-endpoint="POSTapi-v1-bank-transactions-transfer"
+               value="harum"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>amount</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="amount"
+               data-endpoint="POSTapi-v1-bank-transactions-transfer"
+               value="0"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0.</p>
+        </p>
+                <p>
+            <b><code>charges</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="charges"
+               data-endpoint="POSTapi-v1-bank-transactions-transfer"
+               value="0"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0.</p>
+        </p>
+                <p>
+            <b><code>comments</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="comments"
+               data-endpoint="POSTapi-v1-bank-transactions-transfer"
+               value=""
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="bank-account-transactions-POSTapi-v1-bank-transactions-deposit">Deposit Service</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint deposits money into an account</p>
+
+<span id="example-requests-POSTapi-v1-bank-transactions-deposit">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/bank-transactions/deposit" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"account_number\": \"dolor\",
+    \"amount\": 0,
+    \"charges\": 0
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-transactions/deposit"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "account_number": "dolor",
+    "amount": 0,
+    "charges": 0
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-bank-transactions-deposit">
+</span>
+<span id="execution-results-POSTapi-v1-bank-transactions-deposit" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-bank-transactions-deposit"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-bank-transactions-deposit"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-bank-transactions-deposit" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-bank-transactions-deposit"></code></pre>
+</span>
+<form id="form-POSTapi-v1-bank-transactions-deposit" data-method="POST"
+      data-path="api/v1/bank-transactions/deposit"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-bank-transactions-deposit', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-bank-transactions-deposit"
+                    onclick="tryItOut('POSTapi-v1-bank-transactions-deposit');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-bank-transactions-deposit"
+                    onclick="cancelTryOut('POSTapi-v1-bank-transactions-deposit');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-bank-transactions-deposit" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/bank-transactions/deposit</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTapi-v1-bank-transactions-deposit" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTapi-v1-bank-transactions-deposit"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>account_number</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="account_number"
+               data-endpoint="POSTapi-v1-bank-transactions-deposit"
+               value="dolor"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>amount</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="amount"
+               data-endpoint="POSTapi-v1-bank-transactions-deposit"
+               value="0"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0.</p>
+        </p>
+                <p>
+            <b><code>charges</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="charges"
+               data-endpoint="POSTapi-v1-bank-transactions-deposit"
+               value="0"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0.</p>
+        </p>
+                <p>
+            <b><code>comments</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="comments"
+               data-endpoint="POSTapi-v1-bank-transactions-deposit"
+               value=""
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="bank-account-transactions-POSTapi-v1-bank-transactions-withdraw">Withdrawal Service</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint helps to withdraw monry from an account</p>
+
+<span id="example-requests-POSTapi-v1-bank-transactions-withdraw">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/bank-transactions/withdraw" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"account_number\": \"iure\",
+    \"amount\": 0,
+    \"charges\": 0
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-transactions/withdraw"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "account_number": "iure",
+    "amount": 0,
+    "charges": 0
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-bank-transactions-withdraw">
+</span>
+<span id="execution-results-POSTapi-v1-bank-transactions-withdraw" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-bank-transactions-withdraw"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-bank-transactions-withdraw"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-bank-transactions-withdraw" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-bank-transactions-withdraw"></code></pre>
+</span>
+<form id="form-POSTapi-v1-bank-transactions-withdraw" data-method="POST"
+      data-path="api/v1/bank-transactions/withdraw"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-bank-transactions-withdraw', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-bank-transactions-withdraw"
+                    onclick="tryItOut('POSTapi-v1-bank-transactions-withdraw');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-bank-transactions-withdraw"
+                    onclick="cancelTryOut('POSTapi-v1-bank-transactions-withdraw');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-bank-transactions-withdraw" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/bank-transactions/withdraw</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTapi-v1-bank-transactions-withdraw" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTapi-v1-bank-transactions-withdraw"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>account_number</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="account_number"
+               data-endpoint="POSTapi-v1-bank-transactions-withdraw"
+               value="iure"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+                <p>
+            <b><code>amount</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
+                <input type="number"
+               name="amount"
+               data-endpoint="POSTapi-v1-bank-transactions-withdraw"
+               value="0"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0.</p>
+        </p>
+                <p>
+            <b><code>charges</code></b>&nbsp;&nbsp;<small>number</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="charges"
+               data-endpoint="POSTapi-v1-bank-transactions-withdraw"
+               value="0"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0.</p>
+        </p>
+                <p>
+            <b><code>comments</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="comments"
+               data-endpoint="POSTapi-v1-bank-transactions-withdraw"
+               value=""
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+        <h1 id="bank-branches-management">Bank Branches Management</h1>
+
+    
+
+            <h2 id="bank-branches-management-GETapi-v1-bank-branches">Get banks branches</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This resource fetches all the list of bank accounts.</p>
+
+<span id="example-requests-GETapi-v1-bank-branches">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bank-branches?page_size=20&amp;page=1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-branches"
+);
+
+const params = {
+    "page_size": "20",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bank-branches">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: null,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;bank&quot;: null,
+            &quot;created_at&quot;: null,
+            &quot;updated_at&quot;: null
+        },
+        {
+            &quot;id&quot;: null,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;bank&quot;: null,
+            &quot;created_at&quot;: null,
+            &quot;updated_at&quot;: null
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bank-branches" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bank-branches"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bank-branches"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bank-branches" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bank-branches"></code></pre>
+</span>
+<form id="form-GETapi-v1-bank-branches" data-method="GET"
+      data-path="api/v1/bank-branches"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bank-branches', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bank-branches"
+                    onclick="tryItOut('GETapi-v1-bank-branches');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bank-branches"
+                    onclick="cancelTryOut('GETapi-v1-bank-branches');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bank-branches" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bank-branches</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-bank-branches" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-bank-branches"
+                                                                data-component="header"></label>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page_size</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page_size"
+               data-endpoint="GETapi-v1-bank-branches"
+               value="20"
+               data-component="query" hidden>
+    <br>
+<p>Size per page. Default is 20.</p>
+            </p>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-v1-bank-branches"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>Page to view. Default is 1.</p>
+            </p>
+                </form>
+
+            <h2 id="bank-branches-management-POSTapi-v1-bank-branches">Create bank branch</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint creates a new bank branch.</p>
+
+<span id="example-requests-POSTapi-v1-bank-branches">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/v1/bank-branches" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"\",
+    \"address_line_1\": \"kixdsn\",
+    \"address_line_2\": \"pvnhldexftfmgzimzkpylpgdsmpwgirzazfobrxeap\",
+    \"state\": \"x\",
+    \"country\": \"p\",
+    \"bank\": \"tempora\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-branches"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "",
+    "address_line_1": "kixdsn",
+    "address_line_2": "pvnhldexftfmgzimzkpylpgdsmpwgirzazfobrxeap",
+    "state": "x",
+    "country": "p",
+    "bank": "tempora"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-v1-bank-branches">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 106,
+        &quot;account_number&quot;: &quot;CMR74042731588537717803834389&quot;,
+        &quot;account_type&quot;: &quot;CURRENT&quot;,
+        &quot;account_balance&quot;: 10000000,
+        &quot;owner&quot;: {
+            &quot;id&quot;: 1,
+            &quot;first_name&quot;: &quot;Clair&quot;,
+            &quot;middle_name&quot;: &quot;Conn&quot;,
+            &quot;last_name&quot;: &quot;Kshlerin&quot;,
+            &quot;sex&quot;: &quot;F&quot;,
+            &quot;date_of_birth&quot;: &quot;1980-07-17&quot;,
+            &quot;place_of_birth&quot;: &quot;South Zariatown&quot;,
+            &quot;nationality&quot;: &quot;CMR&quot;,
+            &quot;country_of_origin&quot;: &quot;CMR&quot;,
+            &quot;address_line_1&quot;: &quot;49914 Braun Station&quot;,
+            &quot;address_line_2&quot;: &quot;454 Kessler Shoal\nEast Nyahport, FL 55275&quot;,
+            &quot;phone&quot;: &quot;+1-425-449-2435&quot;,
+            &quot;email&quot;: &quot;wterry@example.net&quot;,
+            &quot;created_at_branch&quot;: 1,
+            &quot;created_by&quot;: 1,
+            &quot;lastly_updated_by&quot;: null,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_at_branch&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+            &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+            &quot;state&quot;: &quot;LT&quot;,
+            &quot;country&quot;: &quot;CMR&quot;,
+            &quot;bank_id&quot;: 1,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_by&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+            &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+            &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-v1-bank-branches" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-v1-bank-branches"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-v1-bank-branches"></code></pre>
+</span>
+<span id="execution-error-POSTapi-v1-bank-branches" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-v1-bank-branches"></code></pre>
+</span>
+<form id="form-POSTapi-v1-bank-branches" data-method="POST"
+      data-path="api/v1/bank-branches"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-v1-bank-branches', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-v1-bank-branches"
+                    onclick="tryItOut('POSTapi-v1-bank-branches');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-v1-bank-branches"
+                    onclick="cancelTryOut('POSTapi-v1-bank-branches');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-v1-bank-branches" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/v1/bank-branches</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTapi-v1-bank-branches" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTapi-v1-bank-branches"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="POSTapi-v1-bank-branches"
+               value=""
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0 characters. Must not be greater than 128 characters.</p>
+        </p>
+                <p>
+            <b><code>address_line_1</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="address_line_1"
+               data-endpoint="POSTapi-v1-bank-branches"
+               value="kixdsn"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0 characters. Must not be greater than 64 characters.</p>
+        </p>
+                <p>
+            <b><code>address_line_2</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="address_line_2"
+               data-endpoint="POSTapi-v1-bank-branches"
+               value="pvnhldexftfmgzimzkpylpgdsmpwgirzazfobrxeap"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0 characters. Must not be greater than 64 characters.</p>
+        </p>
+                <p>
+            <b><code>state</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="state"
+               data-endpoint="POSTapi-v1-bank-branches"
+               value="x"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 3 characters. Must not be greater than 3 characters.</p>
+        </p>
+                <p>
+            <b><code>country</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="country"
+               data-endpoint="POSTapi-v1-bank-branches"
+               value="p"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 3 characters. Must not be greater than 3 characters.</p>
+        </p>
+                <p>
+            <b><code>bank</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="bank"
+               data-endpoint="POSTapi-v1-bank-branches"
+               value="tempora"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+            <h2 id="bank-branches-management-GETapi-v1-bank-branches--bank_branch-">Find a bank branch</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint fetches a bank branch by id.</p>
+
+<span id="example-requests-GETapi-v1-bank-branches--bank_branch-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bank-branches/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-branches/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bank-branches--bank_branch-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: null,
+        &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+        &quot;bank&quot;: null,
+        &quot;created_at&quot;: null,
+        &quot;updated_at&quot;: null
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bank-branches--bank_branch-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bank-branches--bank_branch-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bank-branches--bank_branch-"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bank-branches--bank_branch-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bank-branches--bank_branch-"></code></pre>
+</span>
+<form id="form-GETapi-v1-bank-branches--bank_branch-" data-method="GET"
+      data-path="api/v1/bank-branches/{bank_branch}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bank-branches--bank_branch-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bank-branches--bank_branch-"
+                    onclick="tryItOut('GETapi-v1-bank-branches--bank_branch-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bank-branches--bank_branch-"
+                    onclick="cancelTryOut('GETapi-v1-bank-branches--bank_branch-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bank-branches--bank_branch-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bank-branches/{bank_branch}</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-bank-branches--bank_branch-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-bank-branches--bank_branch-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>bank_branch</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="bank_branch"
+               data-endpoint="GETapi-v1-bank-branches--bank_branch-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The bank branch id. Default 1.</p>
+            </p>
+                    </form>
+
+            <h2 id="bank-branches-management-PUTapi-v1-bank-branches--bank_branch-">Update bank branch</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint updates bank branch.</p>
+
+<span id="example-requests-PUTapi-v1-bank-branches--bank_branch-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/v1/bank-branches/1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"name\": \"vkckkgaqtkfbdywwky\",
+    \"address_line_1\": \"hrnvdkrilxccnfcknbmcvqffpbfs\",
+    \"address_line_2\": \"qhqxszzlxnpjvvimcpzvrrmppddsvl\",
+    \"state\": \"\",
+    \"country\": \"t\",
+    \"bank\": \"tempore\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-branches/1"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "name": "vkckkgaqtkfbdywwky",
+    "address_line_1": "hrnvdkrilxccnfcknbmcvqffpbfs",
+    "address_line_2": "qhqxszzlxnpjvvimcpzvrrmppddsvl",
+    "state": "",
+    "country": "t",
+    "bank": "tempore"
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-v1-bank-branches--bank_branch-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 107,
+        &quot;account_number&quot;: &quot;CMR94637424505240075980303265&quot;,
+        &quot;account_type&quot;: &quot;SAVINGS&quot;,
+        &quot;account_balance&quot;: 10000000,
+        &quot;owner&quot;: {
+            &quot;id&quot;: 1,
+            &quot;first_name&quot;: &quot;Clair&quot;,
+            &quot;middle_name&quot;: &quot;Conn&quot;,
+            &quot;last_name&quot;: &quot;Kshlerin&quot;,
+            &quot;sex&quot;: &quot;F&quot;,
+            &quot;date_of_birth&quot;: &quot;1980-07-17&quot;,
+            &quot;place_of_birth&quot;: &quot;South Zariatown&quot;,
+            &quot;nationality&quot;: &quot;CMR&quot;,
+            &quot;country_of_origin&quot;: &quot;CMR&quot;,
+            &quot;address_line_1&quot;: &quot;49914 Braun Station&quot;,
+            &quot;address_line_2&quot;: &quot;454 Kessler Shoal\nEast Nyahport, FL 55275&quot;,
+            &quot;phone&quot;: &quot;+1-425-449-2435&quot;,
+            &quot;email&quot;: &quot;wterry@example.net&quot;,
+            &quot;created_at_branch&quot;: 1,
+            &quot;created_by&quot;: 1,
+            &quot;lastly_updated_by&quot;: null,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_at_branch&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+            &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+            &quot;state&quot;: &quot;LT&quot;,
+            &quot;country&quot;: &quot;CMR&quot;,
+            &quot;bank_id&quot;: 1,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_by&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+            &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+            &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PUTapi-v1-bank-branches--bank_branch-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-v1-bank-branches--bank_branch-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-v1-bank-branches--bank_branch-"></code></pre>
+</span>
+<span id="execution-error-PUTapi-v1-bank-branches--bank_branch-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-v1-bank-branches--bank_branch-"></code></pre>
+</span>
+<form id="form-PUTapi-v1-bank-branches--bank_branch-" data-method="PUT"
+      data-path="api/v1/bank-branches/{bank_branch}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-v1-bank-branches--bank_branch-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-v1-bank-branches--bank_branch-"
+                    onclick="tryItOut('PUTapi-v1-bank-branches--bank_branch-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-v1-bank-branches--bank_branch-"
+                    onclick="cancelTryOut('PUTapi-v1-bank-branches--bank_branch-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-v1-bank-branches--bank_branch-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/v1/bank-branches/{bank_branch}</code></b>
+        </p>
+            <p>
+            <small class="badge badge-purple">PATCH</small>
+            <b><code>api/v1/bank-branches/{bank_branch}</code></b>
+        </p>
+                <p>
+            <label id="auth-PUTapi-v1-bank-branches--bank_branch-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="PUTapi-v1-bank-branches--bank_branch-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>bank_branch</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="bank_branch"
+               data-endpoint="PUTapi-v1-bank-branches--bank_branch-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The bank branch id. Default 1.</p>
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="name"
+               data-endpoint="PUTapi-v1-bank-branches--bank_branch-"
+               value="vkckkgaqtkfbdywwky"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0 characters. Must not be greater than 128 characters.</p>
+        </p>
+                <p>
+            <b><code>address_line_1</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="address_line_1"
+               data-endpoint="PUTapi-v1-bank-branches--bank_branch-"
+               value="hrnvdkrilxccnfcknbmcvqffpbfs"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0 characters. Must not be greater than 64 characters.</p>
+        </p>
+                <p>
+            <b><code>address_line_2</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="address_line_2"
+               data-endpoint="PUTapi-v1-bank-branches--bank_branch-"
+               value="qhqxszzlxnpjvvimcpzvrrmppddsvl"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 0 characters. Must not be greater than 64 characters.</p>
+        </p>
+                <p>
+            <b><code>state</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="state"
+               data-endpoint="PUTapi-v1-bank-branches--bank_branch-"
+               value=""
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 3 characters. Must not be greater than 3 characters.</p>
+        </p>
+                <p>
+            <b><code>country</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
+                <input type="text"
+               name="country"
+               data-endpoint="PUTapi-v1-bank-branches--bank_branch-"
+               value="t"
+               data-component="body" hidden>
+    <br>
+<p>Must be at least 3 characters. Must not be greater than 3 characters.</p>
+        </p>
+                <p>
+            <b><code>bank</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="bank"
+               data-endpoint="PUTapi-v1-bank-branches--bank_branch-"
+               value="tempore"
+               data-component="body" hidden>
+    <br>
+
+        </p>
+        </form>
+
+        <h1 id="customer-management">Customer Management</h1>
+
+    
+
+            <h2 id="customer-management-GETapi-v1-customers">Get customers</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This resource fetches all customers.</p>
+
+<span id="example-requests-GETapi-v1-customers">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/customers?page_size=20&amp;page=1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/customers"
+);
+
+const params = {
+    "page_size": "20",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-customers">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 112,
+            &quot;account_number&quot;: &quot;CMR02953399571263760436818210&quot;,
+            &quot;account_type&quot;: &quot;CURRENT&quot;,
+            &quot;account_balance&quot;: 10000000,
+            &quot;owner&quot;: {
+                &quot;id&quot;: 1,
+                &quot;first_name&quot;: &quot;Clair&quot;,
+                &quot;middle_name&quot;: &quot;Conn&quot;,
+                &quot;last_name&quot;: &quot;Kshlerin&quot;,
+                &quot;sex&quot;: &quot;F&quot;,
+                &quot;date_of_birth&quot;: &quot;1980-07-17&quot;,
+                &quot;place_of_birth&quot;: &quot;South Zariatown&quot;,
+                &quot;nationality&quot;: &quot;CMR&quot;,
+                &quot;country_of_origin&quot;: &quot;CMR&quot;,
+                &quot;address_line_1&quot;: &quot;49914 Braun Station&quot;,
+                &quot;address_line_2&quot;: &quot;454 Kessler Shoal\nEast Nyahport, FL 55275&quot;,
+                &quot;phone&quot;: &quot;+1-425-449-2435&quot;,
+                &quot;email&quot;: &quot;wterry@example.net&quot;,
+                &quot;created_at_branch&quot;: 1,
+                &quot;created_by&quot;: 1,
+                &quot;lastly_updated_by&quot;: null,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_at_branch&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+                &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+                &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+                &quot;state&quot;: &quot;LT&quot;,
+                &quot;country&quot;: &quot;CMR&quot;,
+                &quot;bank_id&quot;: 1,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+                &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+                &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+        },
+        {
+            &quot;id&quot;: 113,
+            &quot;account_number&quot;: &quot;CMR35956315851489802684277748&quot;,
+            &quot;account_type&quot;: &quot;SAVINGS&quot;,
+            &quot;account_balance&quot;: 10000000,
+            &quot;owner&quot;: {
+                &quot;id&quot;: 1,
+                &quot;first_name&quot;: &quot;Clair&quot;,
+                &quot;middle_name&quot;: &quot;Conn&quot;,
+                &quot;last_name&quot;: &quot;Kshlerin&quot;,
+                &quot;sex&quot;: &quot;F&quot;,
+                &quot;date_of_birth&quot;: &quot;1980-07-17&quot;,
+                &quot;place_of_birth&quot;: &quot;South Zariatown&quot;,
+                &quot;nationality&quot;: &quot;CMR&quot;,
+                &quot;country_of_origin&quot;: &quot;CMR&quot;,
+                &quot;address_line_1&quot;: &quot;49914 Braun Station&quot;,
+                &quot;address_line_2&quot;: &quot;454 Kessler Shoal\nEast Nyahport, FL 55275&quot;,
+                &quot;phone&quot;: &quot;+1-425-449-2435&quot;,
+                &quot;email&quot;: &quot;wterry@example.net&quot;,
+                &quot;created_at_branch&quot;: 1,
+                &quot;created_by&quot;: 1,
+                &quot;lastly_updated_by&quot;: null,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_at_branch&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+                &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+                &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+                &quot;state&quot;: &quot;LT&quot;,
+                &quot;country&quot;: &quot;CMR&quot;,
+                &quot;bank_id&quot;: 1,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_by&quot;: {
+                &quot;id&quot;: 1,
+                &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+                &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+                &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+            },
+            &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-customers" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-customers"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-customers"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-customers" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-customers"></code></pre>
+</span>
+<form id="form-GETapi-v1-customers" data-method="GET"
+      data-path="api/v1/customers"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-customers', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-customers"
+                    onclick="tryItOut('GETapi-v1-customers');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-customers"
+                    onclick="cancelTryOut('GETapi-v1-customers');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-customers" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/customers</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-customers" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-customers"
+                                                                data-component="header"></label>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page_size</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page_size"
+               data-endpoint="GETapi-v1-customers"
+               value="20"
+               data-component="query" hidden>
+    <br>
+<p>Size per page. Default is 20.</p>
+            </p>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-v1-customers"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>Page to view. Default is 1.</p>
+            </p>
+                </form>
+
+            <h2 id="customer-management-GETapi-v1-customers--id-">Find a customer</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint fetches a customer by id.</p>
+
+<span id="example-requests-GETapi-v1-customers--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/customers/13" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/customers/13"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-customers--id-">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json">{
+    &quot;data&quot;: {
+        &quot;id&quot;: 53,
+        &quot;first_name&quot;: &quot;Orion&quot;,
+        &quot;middle_name&quot;: &quot;Pfeffer&quot;,
+        &quot;last_name&quot;: &quot;Rau&quot;,
+        &quot;sex&quot;: &quot;M&quot;,
+        &quot;date_of_birth&quot;: &quot;1980-07-10&quot;,
+        &quot;place_of_birth&quot;: &quot;West Augusta&quot;,
+        &quot;nationality&quot;: &quot;CMR&quot;,
+        &quot;country_of_origin&quot;: &quot;CMR&quot;,
+        &quot;address_line_1&quot;: &quot;831 Walsh Groves&quot;,
+        &quot;address_line_2&quot;: &quot;6212 Jovanny Brook Apt. 267\nNew Jarretthaven, OH 16862&quot;,
+        &quot;phone&quot;: &quot;+1.917.734.4434&quot;,
+        &quot;email&quot;: &quot;elton.brown@example.org&quot;,
+        &quot;created_at_branch&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;United Bank for Africa - Head Office&quot;,
+            &quot;address_line_1&quot;: &quot;95539 Jessica Manor&quot;,
+            &quot;address_line_2&quot;: &quot;555 Gay Brook Suite 402\nLake Alfredo, NC 89714&quot;,
+            &quot;state&quot;: &quot;LT&quot;,
+            &quot;country&quot;: &quot;CMR&quot;,
+            &quot;bank_id&quot;: 1,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;created_by&quot;: {
+            &quot;id&quot;: 1,
+            &quot;name&quot;: &quot;Judson Gulgowski&quot;,
+            &quot;email&quot;: &quot;kari.koelpin@example.com&quot;,
+            &quot;email_verified_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;created_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2022-01-21T12:02:54.000000Z&quot;
+        },
+        &quot;lastly_updated_by&quot;: null,
+        &quot;created_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2022-01-21T16:50:32.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-customers--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-customers--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-customers--id-"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-customers--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-customers--id-"></code></pre>
+</span>
+<form id="form-GETapi-v1-customers--id-" data-method="GET"
+      data-path="api/v1/customers/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-customers--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-customers--id-"
+                    onclick="tryItOut('GETapi-v1-customers--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-customers--id-"
+                    onclick="cancelTryOut('GETapi-v1-customers--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-customers--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/customers/{id}</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-customers--id-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-customers--id-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="GETapi-v1-customers--id-"
+               value="13"
+               data-component="url" hidden>
+    <br>
+<p>The ID of the customer.</p>
+            </p>
+                    <p>
+                <b><code>customer</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="customer"
+               data-endpoint="GETapi-v1-customers--id-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The customer id. Default 1.</p>
+            </p>
+                    </form>
+
+        <h1 id="transaction-history">Transaction History</h1>
+
+    
+
+            <h2 id="transaction-history-GETapi-v1-bank-transactions">Get all transactions</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This resource fetches all the list of transactions.</p>
+
+<span id="example-requests-GETapi-v1-bank-transactions">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bank-transactions?page_size=20&amp;page=1" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-transactions"
+);
+
+const params = {
+    "page_size": "20",
+    "page": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bank-transactions">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bank-transactions" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bank-transactions"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bank-transactions"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bank-transactions" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bank-transactions"></code></pre>
+</span>
+<form id="form-GETapi-v1-bank-transactions" data-method="GET"
+      data-path="api/v1/bank-transactions"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bank-transactions', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bank-transactions"
+                    onclick="tryItOut('GETapi-v1-bank-transactions');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bank-transactions"
+                    onclick="cancelTryOut('GETapi-v1-bank-transactions');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bank-transactions" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bank-transactions</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-bank-transactions" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-bank-transactions"
+                                                                data-component="header"></label>
+        </p>
+                    <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                    <p>
+                <b><code>page_size</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page_size"
+               data-endpoint="GETapi-v1-bank-transactions"
+               value="20"
+               data-component="query" hidden>
+    <br>
+<p>Size per page. Default is 20.</p>
+            </p>
+                    <p>
+                <b><code>page</code></b>&nbsp;&nbsp;<small>integer</small>     <i>optional</i> &nbsp;
+                <input type="number"
+               name="page"
+               data-endpoint="GETapi-v1-bank-transactions"
+               value="1"
+               data-component="query" hidden>
+    <br>
+<p>Page to view. Default is 1.</p>
+            </p>
+                </form>
+
+            <h2 id="transaction-history-GETapi-v1-bank-transactions--bank_transaction-">Find a transaction history</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+<p>This endpoint fetches a transaction history by id.</p>
+
+<span id="example-requests-GETapi-v1-bank-transactions--bank_transaction-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/v1/bank-transactions/est" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/v1/bank-transactions/est"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-v1-bank-transactions--bank_transaction-">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-v1-bank-transactions--bank_transaction-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-v1-bank-transactions--bank_transaction-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-v1-bank-transactions--bank_transaction-"></code></pre>
+</span>
+<span id="execution-error-GETapi-v1-bank-transactions--bank_transaction-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-v1-bank-transactions--bank_transaction-"></code></pre>
+</span>
+<form id="form-GETapi-v1-bank-transactions--bank_transaction-" data-method="GET"
+      data-path="api/v1/bank-transactions/{bank_transaction}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-v1-bank-transactions--bank_transaction-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-v1-bank-transactions--bank_transaction-"
+                    onclick="tryItOut('GETapi-v1-bank-transactions--bank_transaction-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-v1-bank-transactions--bank_transaction-"
+                    onclick="cancelTryOut('GETapi-v1-bank-transactions--bank_transaction-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-v1-bank-transactions--bank_transaction-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/v1/bank-transactions/{bank_transaction}</code></b>
+        </p>
+                <p>
+            <label id="auth-GETapi-v1-bank-transactions--bank_transaction-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETapi-v1-bank-transactions--bank_transaction-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>bank_transaction</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="bank_transaction"
+               data-endpoint="GETapi-v1-bank-transactions--bank_transaction-"
+               value="est"
+               data-component="url" hidden>
+    <br>
+
+            </p>
+                    <p>
+                <b><code>transaction_history</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="transaction_history"
+               data-endpoint="GETapi-v1-bank-transactions--bank_transaction-"
+               value="1"
+               data-component="url" hidden>
+    <br>
+<p>The transaction history id. Default 1.</p>
+            </p>
+                    </form>
+
+    
+
+        
+    </div>
+    <div class="dark-box">
+                    <div class="lang-selector">
+                                                        <button type="button" class="lang-button" data-language-name="bash">bash</button>
+                                                        <button type="button" class="lang-button" data-language-name="javascript">javascript</button>
+                            </div>
+            </div>
+</div>
+</body>
+</html>
